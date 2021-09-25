@@ -7,10 +7,9 @@ import { FiEdit3, FiTrash } from 'react-icons/fi';
 import { Container } from './styles';
 import api from '../../services/api';
 
-export default function Food({food, handleDelete, handleEditFood}) {
-	
-  // Carga inicial da function
-  const { available } = food;
+export default function Food({ food, handleDelete, handleEditFood }) {
+	// Carga inicial da function
+	const { available } = food;
 	const [isAvailable, setIsAvailable] = useState(available);
 
 	// Chaveando o estado "Available"

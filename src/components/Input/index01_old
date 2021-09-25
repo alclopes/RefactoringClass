@@ -1,6 +1,4 @@
-// 02=>
 // 01=> origin program
-
 import {
   useEffect,
   useRef,

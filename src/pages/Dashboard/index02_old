@@ -55,10 +55,17 @@ export default function Dashboard() {
     }
   }
 
+  // Duvida:  // Importante: porque os formatos são diferentes: handleUpdateFood xXx handleDeleteFood xXx handleEditFood
+  
   const handleDeleteFood = async(id) => {
     await api.delete(`/foods/${id}`);
     const foodsFiltered = foods.filter(food => food.id !== id);
     setFoods(foodsFiltered);
+  }
+
+  const handleEditFood = food => {
+    setEditingFood(food)
+    setEditModalOpen(true)
   }
 
   const toggleModal = () => {
@@ -68,13 +75,7 @@ export default function Dashboard() {
   const toggleEditModal = () => {
     setEditModalOpen(!editModalOpen);
   }
-
-  const handleEditFood = food => {
-    setEditingFood(food)
-    setEditModalOpen(true)
-  }
-
-    
+   
   return (
     <>
       <Header openModal={toggleModal} />
