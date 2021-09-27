@@ -1,10 +1,17 @@
+// 03=> conversion to typescript
 // 02=> basic conversion to function
 // 01=> origin program
 
-import { useState, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import ReactModal from 'react-modal';
 
-export default function Modal({ isOpen, setIsOpen, children }) {
+interface IModalProps {
+  isOpen: boolean;
+  setIsOpen: () => void;
+  children: ReactNode
+}
+
+export default function Modal({ isOpen, setIsOpen, children }:IModalProps ) {
 
     // Carregando o status inicial
     const  [modalStatus, setModalStatus] = useState(isOpen)

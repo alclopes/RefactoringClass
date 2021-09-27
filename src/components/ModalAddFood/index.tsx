@@ -1,3 +1,4 @@
+// 03=> conversion to typescript
 // 02=> basic conversion to function
 // 01=> origin program
 
@@ -8,12 +9,26 @@ import { FiCheckSquare } from 'react-icons/fi';
 import { Form } from './styles';
 import Modal from '../Modal';
 import Input from '../Input';
+import {FormHandles} from '@unform/core';
 
-export default function ModalAddFood({isOpen, setIsOpen, handleAddFood}) {
+interface IAddFood {
+  image:string;
+  name:string;
+  price:string;
+  description:string;
+}
 
-  const formRef = useRef(null)
+interface IModalAddFoodProps {
+  isOpen: boolean;
+  setIsOpen: () => void;
+  handleAddFood: (data: IAddFood) => void
+}
 
-  const handleSubmit = async (data) => {
+export default function ModalAddFood({isOpen, setIsOpen, handleAddFood}:IModalAddFoodProps) {
+
+  const formRef= useRef<FormHandles>(null)
+
+  const handleSubmit = async (data:IAddFood) => {
       handleAddFood(data);
       setIsOpen();
   };

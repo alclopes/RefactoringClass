@@ -1,3 +1,4 @@
+// 03=> conversion to typescript
 // 02=> basic conversion to function
 // 01=> origin program
 
@@ -7,14 +8,29 @@ import { FiEdit3, FiTrash } from 'react-icons/fi';
 import { Container } from './styles';
 import api from '../../services/api';
 
-export default function Food({food, handleDelete, handleEditFood}) {
+interface IFood {
+  available:boolean;
+  image:string;
+	id:number;
+	name: string;
+	description: string;
+	price: string;
+}
+
+interface IFoodProps {
+  food: IFood;
+  handleEditFood: (food:IFood) => void
+  handleDelete: (id:number) => void
+}
+
+export default function Food({food, handleDelete, handleEditFood}: IFoodProps) {
 	
   // Carga inicial da function
   const { available } = food;
 	const [isAvailable, setIsAvailable] = useState(available);
 
 	// Chaveando o estado "Available"
-	const toggleAvailable = async () => {
+	const toggleAvailable = async () => {// 03=> conversion to typescript
 		await api.put(`/foods/${food.id}`, {
 			...food,
 			available: !isAvailable,

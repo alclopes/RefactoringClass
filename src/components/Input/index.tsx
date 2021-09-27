@@ -1,4 +1,6 @@
-// 02=>
+// 02=> conversion to typescript
+// 01=> origin program
+// 02=> conversion to typescript
 // 01=> origin program
 
 import {
@@ -9,11 +11,18 @@ import {
 } from 'react';
 
 import { useField } from '@unform/core';
+import { IconBaseProps } from 'react-icons';
 
 import { Container } from './styles';
 
-const Input = ({ name, icon: Icon, ...rest }) => {
-  const inputRef = useRef(null);
+interface IInputProps {
+  name: string;
+  placeholder?:string;
+  icon?: React.ComponentType<IconBaseProps>;
+}
+
+const Input = ({ name, icon: Icon, ...rest }:IInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -38,8 +47,9 @@ const Input = ({ name, icon: Icon, ...rest }) => {
     });
   }, [fieldName, registerField]);
 
+
   return (
-    <Container isFilled={isFilled} isFocused={isFocused}>
+    <Container isFocused={isFocused} isFilled={isFilled} >
       {Icon && <Icon size={20} />}
 
       <input

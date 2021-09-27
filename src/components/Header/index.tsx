@@ -1,3 +1,4 @@
+// 03=> conversion to typescript
 // 02=> basic conversion to function
 // 01=> origin program
 
@@ -6,7 +7,11 @@ import { FiPlusSquare } from 'react-icons/fi';
 import { Container } from './styles';
 import Logo from '../../assets/logo.svg';
 
-export default function Header({ openModal }) {
+interface IHeaderProps {
+  openModal: () => void
+}
+
+export default function Header({openModal}:IHeaderProps) {
   return (
     <Container>
       <header>

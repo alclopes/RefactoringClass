@@ -1,3 +1,4 @@
+// 03=> conversion to typescript
 // 02=> basic conversion to function
 // 01=> origin program
 import { useState, useEffect } from 'react';
@@ -9,12 +10,29 @@ import ModalAddFood from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
 
+interface IFood {
+  id:number;
+  name:string;
+  description:string;
+  price:string;
+  available:boolean;
+  image:string;
+}
+
+interface IAddFood {
+  image:string;
+  name:string;
+  price:string;
+  description:string;
+}
+
 export default function Dashboard() {
 
+  const [foods, setFoods] = useState<IFood[]>([])
+  const [editingFood, setEditingFood] = useState<IFood>({} as IFood);
   const [modalOpen, setModalOpen] = useState(false)
   const [editModalOpen, setEditModalOpen] = useState(false)
-  const [editingFood, setEditingFood] = useState({})
-  const [foods, setFoods] = useState([])
+
 
   useEffect(()=> {
     async function getFoods() {
@@ -24,21 +42,23 @@ export default function Dashboard() {
     getFoods()
   }, [])
 
-  async function handleAddFood(food) {
+  async function handleAddFood(food: Omit<IFood, 'id' | 'available'>,
+  ):   
+    Promise<void> {
+      try {
+        const response = await api.post('/foods', {
+          ...food,
+          available: true,
+        });
 
-    try {
-      const response = await api.post('/foods', {
-        ...food,
-        available: true,
-      });
-
-      setFoods([...foods, response.data]);
-    } catch (err) {
-      console.log(err);
+        setFoods([...foods, response.data]);
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
 
-  async function handleUpdateFood(food) {
+  async function handleUpdateFood(food: IAddFood  ):   
+  Promise<void> {
     try {
       const foodUpdated = await api.put(
         `/foods/${editingFood.id}`,
@@ -55,7 +75,8 @@ export default function Dashboard() {
     }
   }
 
-  const handleDeleteFood = async(id) => {
+  async function handleDeleteFood(id: number):   
+  Promise<void> {
     await api.delete(`/foods/${id}`);
     const foodsFiltered = foods.filter(food => food.id !== id);
     setFoods(foodsFiltered);
@@ -69,7 +90,7 @@ export default function Dashboard() {
     setEditModalOpen(!editModalOpen);
   }
 
-  const handleEditFood = food => {
+  const handleEditFood = (food: IFood) => {
     setEditingFood(food)
     setEditModalOpen(true)
   }
@@ -78,11 +99,13 @@ export default function Dashboard() {
   return (
     <>
       <Header openModal={toggleModal} />
+
       <ModalAddFood
         isOpen={modalOpen}
         setIsOpen={toggleModal}
         handleAddFood={handleAddFood}
       />
+
       <ModalEditFood
         isOpen={editModalOpen}
         setIsOpen={toggleEditModal}
